@@ -5,9 +5,9 @@ const formatDate = (date) => {
     return date.toLocaleDateString();
 };
 
-const thoughtSchema = new Schema (
+const thoughtsSchema = new Schema (
     {
-        thoughtText: {
+        thoughtsText: {
             type: String,
             required: true,
             min_length: 1,
@@ -32,12 +32,12 @@ const thoughtSchema = new Schema (
     }
 );
 
-thoughtSchema
+thoughtsSchema
 .virtual('reactionCount')
 .get(function totalReactions(){
     return this.reactions.length;
 });
 
-const thought = model('thought', thoughtSchema)
+const thoughts = model('thoughts', thoughtsSchema)
 
-module.exports = thought;
+module.exports = thoughts;

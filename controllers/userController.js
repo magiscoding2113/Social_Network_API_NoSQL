@@ -1,16 +1,4 @@
-
-
-
-
-
-
-
-
-//api/users/:userId/friends/;friendId
-//post to add a new friend to a users friend list
-//delete to remove a friend from users friend list
-
-const {User, Thought, user} = require('../models');
+const {User, thoughts, user} = require('../models');
 
 module.exports = {
     getUser(req, res) {
@@ -56,7 +44,7 @@ module.exports = {
         .then((User) =>
         !User
         ? res.status(404).json({message: 'no user with that ID!'})
-        : Thought.deleteMany({_id: { $in: user.Thought }})
+        : Thoughts.deleteMany({_id: { $in: user.Thoughts }})
         )
         .then(() => res.json({ message: 'User and thought deleted!'}))
         .catch((err) => res.status(500).json(err));
