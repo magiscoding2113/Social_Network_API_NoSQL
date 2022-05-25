@@ -1,13 +1,5 @@
-//api/thoughts
-
-
-
-
-
-//api/thoughts/:thoughtId/reactions
-
 const mongoose = require('mongoose');
-const {Thoughts, User, thoughts} = require('../models');
+const {Thoughts, User} = require('../models');
 
 module.exports = {
     getThoughts(req, res) {
@@ -27,15 +19,15 @@ module.exports = {
     },
     createThoughts(req, res) {
         Thoughts.create(req.body)
-        .then((Thoughts) => {
+          .then((Thoughts) => {
             return User.findOneAndUpdate(
-                { username: req.body.username},
-                { $push: {thoughts: thoughts._id}},
-                {runValidators: true, new:true}
+              { _id: req.body.userId },
+              { $addToSet: { thoughts: Thoughts._id } },
+              { new: true }
             );
-        })
-        .then((User) => res.json(User))
-        .catch((err) => req.status(500).json(err));
+          })
+          .then((User) => res.json(User))
+          .catch((err) => res.status(500).json(err));
     },
     removeThoughts(req, res) {
         Thoughts.findOneAndDelete({_id: req.params.thoughtsId})
